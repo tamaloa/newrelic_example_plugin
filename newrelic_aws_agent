@@ -1,0 +1,30 @@
+#
+# This is a placeholder agent that generates synthetic data.
+# It is reporting a trivial metric, but serves to protect the suite of AWS plugins.
+#
+
+require "rubygems"
+require "bundler/setup"
+
+require "newrelic_plugin"
+
+module AwsAgent
+
+  class Agent < NewRelic::Plugin::Agent::Base
+
+    agent_guid "com.newrelic.aws.test"
+    agent_version "1.0.0"
+    agent_config_options :threethou  # arbitrary option to pass
+    agent_human_labels("Placeholder") { "Synthetic example data" }
+
+    def poll_cycle
+      x = Time.now.to_i / rand(125..300) / threethou
+      report_metric "Synethetic Square Root Number",     "Value", Math.sqrt(x).to_i
+    end
+
+  end
+
+  NewRelic::Plugin::Setup.install_agent :aws, AwsAgent
+
+  NewRelic::Plugin::Run.setup_and_run
+end
