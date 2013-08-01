@@ -18,7 +18,7 @@ module ExampleAgent
     agent_guid "de.fraunhofer.moez.ci.passenger-stats"
     agent_version "0.0.1"
     agent_config_options :hertz  # frequency of the periodic functions
-    agent_human_labels("Example Agent") { "Synthetic example data" }
+    agent_human_labels(`hostname`) { "Passenger Statistics" }
 
 
 
