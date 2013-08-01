@@ -18,7 +18,7 @@ module ExampleAgent
     agent_guid "de.fraunhofer.moez.ci.passenger-stats"
     agent_version "0.0.1"
     agent_config_options :hertz  # frequency of the periodic functions
-    agent_human_labels(`hostname`) { "Passenger Statistics" }
+    agent_human_labels("Passenger Stats") { "Passenger on #{`hostname`}" }
 
 
 
@@ -30,20 +30,20 @@ module ExampleAgent
       status = run_command(passenger_status)
 
       status =~ /max\s+=\s+(\d+)/
-      report_metric "passenger.max-processes", "Value", $1
+      report_metric "passenger.max-processes", "Processes", $1
       puts "max.value #{$1}"
 
       status =~ /count\s+=\s+(\d+)/
-      report_metric "passenger.running", "Value", $1
+      report_metric "passenger.running", "Processes", $1
       puts "running.value #{$1}"
 
       status =~ /active\s+=\s+(\d+)/
-      report_metric "passenger.active", "Value", $1
+      report_metric "passenger.active", "Processes", $1
       puts "active.value #{$1}"
 
       total_sessions = 0
       status.scan(/Sessions: (\d+)/).flatten.each { |count| total_sessions += count.to_i }
-      report_metric "passenger.total-sessions", "Value", $1
+      report_metric "passenger.total-sessions", "Sessions", $1
       puts "sessions.value #{total_sessions}"
 
     end
